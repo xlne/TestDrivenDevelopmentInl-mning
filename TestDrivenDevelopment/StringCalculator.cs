@@ -7,15 +7,22 @@ namespace TestDrivenDevelopment
     {
         public static int Add(string numbers)
         {
-            if (numbers == "") return 0;
-            else if (numbers.Contains(','))
+            string newLine = "\n";
+
+            if(string.IsNullOrEmpty(numbers)) return 0;
+            
+            if (numbers.Contains(','))
             {
                 var stringArray = numbers.Split(',');
-                var numbersArray = stringArray.Select(number => int.Parse(number));
-                var sum = numbersArray.Sum();
-                return sum;
+                return stringArray.Select(number => int.Parse(number)).Sum();
             }
-                return int.Parse(numbers);
+            else if (numbers.Contains(newLine))
+            {
+            var numberPart = numbers.Split(newLine.ToCharArray());
+                return numberPart.Select(number => int.Parse(number)).Sum();
+
+            }
+            return int.Parse(numbers);
         }
     }
 }

@@ -36,6 +36,14 @@ namespace TestProjectTDDInlämning
             var result = StringCalculator.Add("1,2,8,3,5,9");
 
             Assert.Equal(28, result);
+        } 
+        
+        [Fact]
+        public void Add_Returns_Sum_Even_If_Numbers_Are_Separated_With_New_Line()
+        {
+            var result = StringCalculator.Add("1\n2\n8\n3\n5\n9");
+            
+            Assert.Equal(28, result);
         }
     }
 }
