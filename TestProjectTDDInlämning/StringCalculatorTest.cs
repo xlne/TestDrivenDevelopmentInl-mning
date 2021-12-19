@@ -29,5 +29,13 @@ namespace TestProjectTDDInlämning
 
             Assert.Equal(3, result);
         }
+        
+        [Fact]
+        public void Add_Returns_Sum_For_Unknown_Amount_Numbers()
+        {
+            var result = StringCalculator.Add("1,2,8,3,5,9");
+
+            Assert.Equal(28, result);
+        }
     }
 }
