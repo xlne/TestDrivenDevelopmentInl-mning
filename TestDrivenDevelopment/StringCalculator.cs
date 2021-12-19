@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("StringCalculatorTest")]
 namespace TestDrivenDevelopment
 {
-    internal class StringCalculator
+    public class StringCalculator
     {
-
+        public static int Add(string numbers)
+        {
+            if(numbers == "") return 0;
+                return int.Parse(numbers);
+        }
     }
 }
