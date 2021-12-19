@@ -13,5 +13,13 @@ namespace TestProjectTDDInlämning
 
             Assert.Equal(0, result);
         }
+
+        [Fact]
+        public void Add_Returns_Sum_For_One_Number()
+        {
+            var result = StringCalculator.Add("1");
+
+            Assert.Equal(1, result);
+        }
     }
 }
