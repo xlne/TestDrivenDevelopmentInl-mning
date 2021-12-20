@@ -5,33 +5,46 @@ namespace TestDrivenDevelopment
 {
     public class StringCalculator
     {
-        private static string? delimiter;
-
-        public static int Add(string numbers)
+        public int Add(string numbers)
         {            
-            if(string.IsNullOrEmpty(numbers)) 
+            if (string.IsNullOrEmpty(numbers))
                 return 0;
-            else if (HasDelimiter(numbers))
+            if (HasDelimiter(numbers))
             {
-                if (numbers.StartsWith("//"))
-                {
-                    delimiter = new string(numbers.Skip(2).Take(1).ToArray());
-                    string stringWithoutDelimiter = numbers.Substring(numbers.IndexOf('\n') + 1);
-                    var arrayString = stringWithoutDelimiter.Split(delimiter);
-                    var numberArray = arrayString.Select(theString => int.Parse(theString));
-                    return numberArray.Sum();
-                }
+                string delimiter = new string(numbers.Skip(2).Take(1).ToArray());
+                string stringWithoutDelimiter = numbers.Substring(numbers.IndexOf('\n') + 1);
+                var numbersArray = stringWithoutDelimiter.Split(delimiter);
+                return TheIntegersFromTheString(numbersArray);
+            }
+            else
+            {                
+                var numbersArray = numbers.Split(new string[] { "\n", "," }, StringSplitOptions.None);
+                return TheIntegersFromTheString(numbersArray);       
+            }            
+        }
 
-                var stringArray = numbers.Split(new string[] { "\n", "," }, StringSplitOptions.None);
-                var numbersArray = stringArray.Select(str => int.Parse(str));
-                return numbersArray.Sum();
-            }                    
-            return int.Parse(numbers);
+        private static int TheIntegersFromTheString(string[] numbersArray)
+        {
+            var ints = numbersArray.Select(theString => int.Parse(theString));
+            ThrowExceptionIfNegativeNumber(ints);
+            return ints.Sum();
+        }
+
+        private static void ThrowExceptionIfNegativeNumber(IEnumerable<int> numberArray)
+        {
+            var negativeNumbers = numberArray.Where(number => number < 0);
+            if (negativeNumbers.Any())
+            {
+                string negativeString = String.Join(',', negativeNumbers
+                .Select(n => n.ToString()));
+                throw new ArgumentException($"Negatives not allowed: {negativeString}");
+            }
         }
 
         private static bool HasDelimiter(string numbers)
         {
-            return numbers.StartsWith("//") || numbers.Contains('\n') || numbers.Contains(',');
+            return numbers.StartsWith("//");
         }
     }
 }
+

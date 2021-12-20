@@ -1,3 +1,4 @@
+using System;
 using TestDrivenDevelopment;
 using Xunit;
 
@@ -9,7 +10,8 @@ namespace TestProjectTDDInlämning
         [Fact]
         public void Add_Returns_Zero_If_Empty_String()
         {
-            var result = StringCalculator.Add("");
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("");
 
             Assert.Equal(0, result);
         }
@@ -17,7 +19,8 @@ namespace TestProjectTDDInlämning
         [Fact]
         public void Add_Returns_Sum_For_One_Number()
         {
-            var result = StringCalculator.Add("1");
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("1");
 
             Assert.Equal(1, result);
         }
@@ -25,7 +28,8 @@ namespace TestProjectTDDInlämning
         [Fact]
         public void Add_Returns_Sum_For_Two_Numbers()
         {
-            var result = StringCalculator.Add("1,2");
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("1,2");
 
             Assert.Equal(3, result);
         }
@@ -33,7 +37,8 @@ namespace TestProjectTDDInlämning
         [Fact]
         public void Add_Returns_Sum_For_Unknown_Amount_Numbers()
         {
-            var result = StringCalculator.Add("1,2,8,3,5,9");
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("1,2,8,3,5,9");
 
             Assert.Equal(28, result);
         } 
@@ -41,7 +46,8 @@ namespace TestProjectTDDInlämning
         [Fact]
         public void Add_Returns_Sum_Even_If_Numbers_Are_Separated_With_New_Line()
         {
-            var result = StringCalculator.Add("1\n2\n8\n3\n5\n9");
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("1\n2\n8\n3\n5\n9");
             
             Assert.Equal(28, result);
         }
@@ -49,9 +55,17 @@ namespace TestProjectTDDInlämning
         [Fact]
         public void Add_Supports_Different_Delimiters()
         {
-            var result = StringCalculator.Add("//D\n1D2D3");
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("//D\n1D2D3");
             
             Assert.Equal(6, result);
+        }
+                      
+        [Fact]
+        public void Add_Will_Not_Accept_Negative_Numbers()
+        {
+            var stringCalculator = new StringCalculator();
+            Assert.Throws<ArgumentException>(() => stringCalculator.Add("-2,2"));
         }
     }
 }
