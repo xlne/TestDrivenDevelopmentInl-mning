@@ -75,5 +75,12 @@ namespace TestProjectTDDInlämning
             Assert.Throws<ArgumentException>(() => stringCalculator.Add("-2,2"));
         }
 
+        [Fact]
+        public void Add_Will_Return_Argument_Exception_Message_With_All_Negative_Numbers()
+        {
+            var stringCalculator = new StringCalculator();
+            var mess = Assert.Throws<ArgumentException>(() => stringCalculator.Add("-2,2"));
+            Assert.Equal("Negatives not allowed: -2", mess.Message);
+        }
     }
 }
