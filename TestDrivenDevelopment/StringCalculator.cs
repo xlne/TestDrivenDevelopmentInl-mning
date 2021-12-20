@@ -11,23 +11,35 @@ namespace TestDrivenDevelopment
                 return 0;
             if (HasDelimiter(numbers))
             {
-                string delimiter = new string(numbers.Skip(2).Take(1).ToArray());
+                string delimiter = new(numbers.Skip(2).Take(1).ToArray());
                 string stringWithoutDelimiter = numbers.Substring(numbers.IndexOf('\n') + 1);
                 var numbersArray = stringWithoutDelimiter.Split(delimiter);
+                
+
                 return TheIntegersFromTheString(numbersArray);
             }
             else
-            {                
+            {
                 var numbersArray = numbers.Split(new string[] { "\n", "," }, StringSplitOptions.None);
-                return TheIntegersFromTheString(numbersArray);       
-            }            
-        }
+
+                return TheIntegersFromTheString(numbersArray);
+            }
+        }     
 
         private static int TheIntegersFromTheString(string[] numbersArray)
         {
             var ints = numbersArray.Select(theString => int.Parse(theString));
             ThrowExceptionIfNegativeNumber(ints);
+            if (IfNumberIsBiggerThan1000(ints))
+            {
+                ints = ints.Where(n => n <= 1000);
+            }
             return ints.Sum();
+        }
+
+        private static bool IfNumberIsBiggerThan1000(IEnumerable<int> ints)
+        {
+            return ints.Any(num => num > 1000);
         }
 
         private static void ThrowExceptionIfNegativeNumber(IEnumerable<int> numberArray)
