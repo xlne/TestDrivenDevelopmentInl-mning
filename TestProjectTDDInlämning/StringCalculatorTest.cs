@@ -45,5 +45,13 @@ namespace TestProjectTDDInlämning
             
             Assert.Equal(28, result);
         }
+
+        [Fact]
+        public void Add_Supports_Different_Delimiters()
+        {
+            var result = StringCalculator.Add("//D\n1D2D3");
+            
+            Assert.Equal(6, result);
+        }
     }
 }
