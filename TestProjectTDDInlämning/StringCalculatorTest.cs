@@ -67,5 +67,13 @@ namespace TestProjectTDDInlämning
             var stringCalculator = new StringCalculator();
             Assert.Throws<ArgumentException>(() => stringCalculator.Add("-2,2"));
         }
+
+        [Fact]
+        public void Add_Will_Return_Argument_Exception_Message_If_Contains_Negative_Numbers()
+        {
+            var stringCalculator = new StringCalculator();
+            Assert.Throws<ArgumentException>(() => stringCalculator.Add("-2,2"));
+        }
+
     }
 }
