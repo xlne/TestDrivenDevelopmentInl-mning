@@ -9,31 +9,39 @@ namespace TestDrivenDevelopment
         {
             if (string.IsNullOrEmpty(numbers))
                 return 0;
+            if (HasMultipleDelimiters(numbers))
+                return SumForMultipleDelimiters(numbers);
             if (HasDelimiter(numbers))
-            {
-                if (HasMultipleDelimiters(numbers))
-                {
-                    //var indexEndDeclaration = numbers.IndexOf("]\n") + 1;
-                    var beginningString = numbers.Substring(2, (numbers.IndexOf("]\n") + 1) - 3);
-                    var multipleDelimiters = beginningString.Split(new string[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
-
-                    string firstNum = numbers.Substring(numbers.IndexOf("]\n") + 1);
-                    var numArray = firstNum.Split(multipleDelimiters, StringSplitOptions.RemoveEmptyEntries);
-
-                    return TheIntegersFromTheString(numArray);
-                }
-                string delimiter = new(numbers.Skip(2).Take(1).ToArray());
-                string stringWithoutDelimiter = numbers.Substring(numbers.IndexOf('\n') + 1);
-                var numbersArray = stringWithoutDelimiter.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
-                return TheIntegersFromTheString(numbersArray);
-            }
-            else
-            {
-                var numbersArray = numbers.Split(new string[] { "\n", "," }, StringSplitOptions.None);
-
-                return TheIntegersFromTheString(numbersArray);
-            }
+                return SumForSingleDelimiter(numbers);
+            return SumForDefaultDelimiters(numbers);
         }
+
+        private static int SumForDefaultDelimiters(string numbers)
+        {
+            return TheIntegersFromTheString(NumberSplit(numbers, new string[] { "\n", "," }));
+        }
+
+        private static string[] NumberSplit(string numbers, string[] delimiters)
+        {
+            return numbers.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private static int SumForSingleDelimiter(string numbers)
+        {
+            var delimiter = numbers.Skip(2).Take(1).Select(c => c.ToString()).ToArray();
+            string stringWithoutDelimiter = numbers.Substring(numbers.IndexOf('\n') + 1);            
+            return TheIntegersFromTheString(NumberSplit(stringWithoutDelimiter, delimiter));
+        }
+
+        private static int SumForMultipleDelimiters(string numbers)
+        {
+            var beginningString = numbers.Substring(2, (numbers.IndexOf("]\n") + 1) - 3);
+            string firstNumberInString = numbers.Substring(numbers.IndexOf("]\n") + 1);
+            var multipleDelimiters = beginningString.Split(new string[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+            
+            return TheIntegersFromTheString(NumberSplit(firstNumberInString, multipleDelimiters));
+        }
+
         private static bool HasMultipleDelimiters(string delimiters)
         {
             return delimiters.Contains(']') && delimiters.Contains('[');

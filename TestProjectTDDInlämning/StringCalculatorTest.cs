@@ -114,5 +114,13 @@ namespace TestProjectTDDInlämning
             var result = stringCalculator.Add("//[*][%]\n1*2%3");
             Assert.Equal(6, result);
         }
+        
+        [Fact]
+        public void Add_Will_Allow_Multiple_Different_Delimiters_Longer_Than_One_Char()
+        {
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("//[**][%%%]\n1**2%%%3");
+            Assert.Equal(6, result);
+        }
     }
 }
