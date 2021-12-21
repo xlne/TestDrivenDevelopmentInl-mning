@@ -6,16 +6,25 @@ namespace TestDrivenDevelopment
     public class StringCalculator
     {
         public int Add(string numbers)
-        {            
+        {
             if (string.IsNullOrEmpty(numbers))
                 return 0;
             if (HasDelimiter(numbers))
             {
+                if (HasMultipleDelimiters(numbers))
+                {
+                    //var indexEndDeclaration = numbers.IndexOf("]\n") + 1;
+                    var beginningString = numbers.Substring(2, (numbers.IndexOf("]\n") + 1) - 3);
+                    var multipleDelimiters = beginningString.Split(new string[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    string firstNum = numbers.Substring(numbers.IndexOf("]\n") + 1);
+                    var numArray = firstNum.Split(multipleDelimiters, StringSplitOptions.RemoveEmptyEntries);
+
+                    return TheIntegersFromTheString(numArray);
+                }
                 string delimiter = new(numbers.Skip(2).Take(1).ToArray());
                 string stringWithoutDelimiter = numbers.Substring(numbers.IndexOf('\n') + 1);
-                var numbersArray = stringWithoutDelimiter.Split(delimiter);
-                
-
+                var numbersArray = stringWithoutDelimiter.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
                 return TheIntegersFromTheString(numbersArray);
             }
             else
@@ -24,8 +33,11 @@ namespace TestDrivenDevelopment
 
                 return TheIntegersFromTheString(numbersArray);
             }
-        }     
-
+        }
+        private static bool HasMultipleDelimiters(string delimiters)
+        {
+            return delimiters.Contains(']') && delimiters.Contains('[');
+        }
         private static int TheIntegersFromTheString(string[] numbersArray)
         {
             var ints = numbersArray.Select(theString => int.Parse(theString));

@@ -98,5 +98,13 @@ namespace TestProjectTDDInlämning
             var result = stringCalculator.Add("1001, 5, 9, 1000");
             Assert.Equal(1014, result);
         }
+
+        [Fact]
+        public void Add_Will_Include_Delimiters_Of_Any_Length()
+        {
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("//[***]\n1***2***3");
+            Assert.Equal(6, result);
+        }
     }
 }
